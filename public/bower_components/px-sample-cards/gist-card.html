@@ -1,0 +1,17 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../px-card/px-card.html" />
+
+<dom-module id="gist-card">
+  <link rel="import" type="css" href="css/px-sample-cards.css" />
+  <template>
+    <px-card header-text="Remote Monitoring of Gas leaks">
+      <h1 class="epsilon normal-weight">Snap shot of your assets performance</h1>
+     </px-card>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'gist-card',
+    behaviors: [px.card]
+  });
+</script>

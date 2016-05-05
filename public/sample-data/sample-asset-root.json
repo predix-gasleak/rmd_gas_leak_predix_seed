@@ -1,0 +1,25 @@
+[
+    {
+        "uri": "parent",
+        "classification": "parent",
+        "description": "Gas Sensors",
+        "assetId": "Gas Sensors",
+        "parent": null,
+        "children": [
+            {
+                "uri": "child",
+                "classification": "child",
+                "description": "Vara Home Stove Gas Sensor",
+                "assetId": "Vara Home Stove Gas Sensor",
+                "parent": null
+            },
+            {
+                "uri": "child2",
+                "classification": "child",
+                "description": "Gas Leak Simulator",
+                "assetId": "Gas Leak Simulator",
+                "parent": null
+            }
+        ]
+    }
+]

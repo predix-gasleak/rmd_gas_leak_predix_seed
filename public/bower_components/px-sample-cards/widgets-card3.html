@@ -1,0 +1,149 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../px-widget-cards/px-twoup.html" />
+<link rel="import" href="../px-widget-cards/px-threeup.html" />
+<link rel="import"
+	href="../px-simple-bar-chart/px-simple-bar-chart.html" />
+<link rel="import"
+	href="../px-simple-line-chart/px-simple-line-chart.html" />
+<script type="text/javascript" src="../px/dist/px.min.js"></script>
+
+<dom-module id="widgets-card">
+<link rel="import" type="css" href="css/widgets-card.css" />
+<template> <px-threeup id="sample-card-threeup"
+	widget-header="Widgets">
+<div class="widget-1">
+	<h1 class="epsilon">Arduino connected gas sensor data</h1>
+	<div class="flex">
+		<div class="u-ml+ flex">
+			<div class="large-value">1000</div>
+			<div class="flex flex--col u-ml-">
+				<small class="caps">Alert Value</small> <small class="caps muted">ppm</small>
+			</div>
+		</div>
+	</div>
+
+	<px-simple-line-chart id="demo-line-chart"
+		line-data="{{outputCapacityData}}" threshold="300" columns="8"
+		rows="8" min="1" width="auto" hieght="auto" max="1000"
+		min-label="false" max-label="1000"> </px-simple-line-chart>
+
+	<div>
+		<small class="muted">Past 1 year</small>
+	</div>
+</div>
+
+<div class="widget-2">
+
+	<h1 class="epsilon label">Open Legend</h1>
+
+	<div class="muted label">Current Count</div>
+	<px-simple-bar-chart id="open-cases" width="auto"
+		chart-data="{{openLegendData}}"> </px-simple-bar-chart>
+
+	<div>
+		<small class="muted label">Past 7 Days</small>
+	</div>
+</div>
+
+<div class="widget-3">
+
+	<h1 class="epsilon label">Open Cases</h1>
+
+	<div class="muted label">Current Count</div>
+	<px-simple-bar-chart id="open-cases" width="auto"
+		chart-data="{{openCasesData}}"> </px-simple-bar-chart>
+
+	<div>
+		<small class="muted label">Past 8 Weeks</small>
+	</div>
+</div>
+
+</px-threeup> </template> </dom-module>
+<script>
+    Polymer({
+        is: 'widgets-card',
+        behaviors: [px.card],
+        properties: {
+            data: {
+                type: Object
+            }
+        },
+        created: function(){
+            //default data
+            var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
+            this.data = {} 
+            var assetData = new Array();
+            var assetDataObject = new Object();
+            assetDataObject.outputCapacityData = '[[1462074149557,2],[1462056709153,78],[1461989469250,10],[1461952474895,9],[1461903262329,9],[1461841043211,10],[1461716838793,2],[1461645197157,98],[1461580623201,2],[1461547577347,27],[1461531007568,9],[1461480365186,10],[1461444971669,10],[1461334146148,98],[1461309423415,9],[1461201248668,9],[1461199628282,9],[1461009824773,27],[1460968797355,98],[1460903369887,10],[1460825104484,9],[1460727970086,9],[1460715089806,27],[1460693598101,10],[1460688011667,10]]';
+            console.log('timeSeriesData:::aaa');
+            /* this.getData('/services/gasleakservices/yearly_data/sensor_id/gas_leak_simulator').then(function (predixTimeSeriesData) {
+              	var tags = predixTimeSeriesData.tags;
+                var assetData = '[';
+                var timeSeriesData =   predixTimeSeriesData.tags[0].results[0].values;
+                console.log('timeSeriesData:::'+timeSeriesData);
+                for (var i = 0; i < timeSeriesData.length; i++) {
+                  	var current_gas_level =   timeSeriesData[i];
+                  	console.log('current_gas_level:::'+current_gas_level[1]);
+                  	assetData = assetData +'['+current_gas_level[0]+','+current_gas_level[1]+']';
+                  	if(i < timeSeriesData.length){
+                  		assetData = assetData + ',';
+                  	}
+                }
+                assetData = assetData + ']';
+                console.log('assetData:::'+assetData);
+             }); */
+            
+          /*   this.data = {outputCapacityData:'[[1462074149557,2],[1462056709153,78],[1461989469250,10],[1461952474895,9],[1461903262329,9],[1461841043211,10],[1461716838793,2],[1461645197157,98],[1461580623201,2],[1461547577347,27],[1461531007568,9],[1461480365186,10],[1461444971669,10],[1461334146148,98],[1461309423415,9],[1461201248668,9],[1461199628282,9],[1461009824773,27],[1460968797355,98],[1460903369887,10],[1460825104484,9],[1460727970086,9],[1460715089806,27],[1460693598101,10],[1460688011667,10]]'};
+            console.log('outputCapacityDataoutputCapacityDataoutputCapacityDataoutputCapacityData:::'+this.data.outputCapacityData);
+            */ 
+            this.data = assetDataObject;
+            this.outputCapacityData = this.data.outputCapacityData;
+            
+            console.log('outputCapacityDataoutputCapacityDataoutputCapacityDataoutputCapacityData:::'+this.data.outputCapacityData);
+        },
+        init: function () {
+        	
+        	var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
+            this.data = {} 
+            this.data1 = {} 
+            var assetData = new Array();
+            console.log('timeSeriesData:::aaa');
+            /* this.getData('/services/gasleakservices/yearly_data/sensor_id/gas_leak_simulator').then(function (predixTimeSeriesData) {
+              	var tags = predixTimeSeriesData.tags;
+                var assetData = '[';
+                var timeSeriesData =   predixTimeSeriesData.tags[0].results[0].values;
+                console.log('timeSeriesData:::'+timeSeriesData);
+                for (var i = 0; i < timeSeriesData.length; i++) {
+                  	var current_gas_level =   timeSeriesData[i];
+                  	console.log('current_gas_level:::'+current_gas_level[1]);
+                  	assetData = assetData +'['+current_gas_level[0]+','+current_gas_level[1]+']';
+                  	if(i != timeSeriesData.length){
+                  		assetData = assetData + ',';
+                  	}
+                }
+                assetData = assetData + ']';
+                console.log('assetData:::'+assetData);
+             }); */
+           
+        	
+            //use hard code data if not provided from attributes
+            this.openCasesData = this.data.openCasesData || [
+                [1, 0, 2, 0, 3, 0, 5, 0],
+                [1, 0, 4, 5, 1, 6, 0, 5],
+                [4, 7, 6, 3, 2, 3, 2, 3],
+                [2, 4, 0, 0, 2, 4, 1, 0],
+                [2, 0, 0, 2, 1, 0, 0, 2]
+            ];
+
+
+            this.openLegendData = this.data.openCasesData || [
+                [1, 1, 2, 5, 3, 2, 5, 3]
+            ];
+
+        }
+    });
+    function timeData(time, reading){
+        this.time = reading;
+        this.time  = reading;
+     }
+</script>

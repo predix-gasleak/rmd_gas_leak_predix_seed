@@ -1,0 +1,36 @@
+{
+  "name": "ref-list-picker",
+  "main": [
+    "ref-list-picker.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "Gruntfile.js",
+    "sass",
+    "bower_components",
+    "node_modules",
+    "test"
+  ],
+  "dependencies": {
+    "polymer": "~1.0.0",
+    "px-theme": "https://github.com/predixdev/px-theme.git#~0.3.13",
+    "px-toggle-design": "https://github.com/predixdev/px-toggle-design.git#~0.2.6",
+    "px-layout-design": "https://github.com/predixdev/px-layout-design.git#~0.3.7"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~v1.0.0",
+    "px-meta-lists-design": "https://github.com/predixdev/px-meta-lists-design.git#~0.2.0",
+    "px-starter-kit-design": "https://github.com/predixdev/px-starter-kit-design.git#~0.4.0"
+  },
+  "homepage": "https://github.com/predixdev/ref-list-picker",
+  "_release": "2255d72551",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2255d72551e4d493c45ca40d4cb919e652f32d98"
+  },
+  "_source": "https://github.com/predixdev/ref-list-picker.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/predixdev/ref-list-picker.git"
+}

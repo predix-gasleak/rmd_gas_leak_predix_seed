@@ -1,0 +1,43 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../px-card/px-card.html" />
+<link rel="import" href="../px-data-table/px-data-table.html" />
+
+<dom-module id="datagrid-card">
+  <template>
+    <px-card header-text="Datagrid">
+      <px-data-table filterable selectable table-data="{{data}}"></px-data-table>
+    </px-card>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'datagrid-card',
+    init: function() {
+      /**
+       * get data url from context property therefore this card can be resuable
+       */
+      var self = this;
+      if (this.context.urls && this.context.urls['datagrid-data']){
+          this.getData('/services/gasleakservices/latest_data_all').then(function (predixTimeSeriesData) {
+          	var tags = predixTimeSeriesData.tags;
+            var assetData = new Array();
+            for (var i = 0; i < tags.length; i++) {
+              	var current_gas_level =   predixTimeSeriesData.tags[i].results[0].values[0];
+              	if(tags[i].name !== 'null'){
+              		console.log('tag name:'+tags[i].name);
+              		assetData.push(new asset(tags[i].name,current_gas_level[1],'ppm'));
+              	}
+              }
+              self.data = assetData;
+              
+         });
+      }
+    },
+    behaviors: [px.card]
+  });
+  function asset(assetName, lastReading,units){
+      this.assetName = assetName;
+      this.lastReading  = lastReading;
+      this.units = units;
+   }
+</script>

@@ -1,0 +1,154 @@
+
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
+    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
+    See https://github.sw.ge.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+
+<!--
+Element displays a list of items, with toggle switches.  Multiple items can be selected.
+
+##### Usage
+
+    <ref-list-picker counter-value="1">Hi</ref-list-picker>
+
+@element ref-list-picker
+@blurb Element displays a list of items, with toggle switches.  Multiple items can be selected.
+@homepage index.html
+@demo demo.html
+-->
+<dom-module id="ref-list-picker">
+    <link rel="import" type="css" href="css/ref-list-picker.css"/>
+    <template>
+        <template is="dom-repeat" items="{{pickerOptions}}">
+            <div class="layout layout--right list-picker-item">
+                <div class="layout__item">{{item.label}}</div>
+                <div class$="{{computeItemClass(index)}}">
+                    <input id="{{computeItemId(index)}}" class="toggle__input toggle__input--small" type="checkbox">
+                    <label for$="{{computeItemId(index)}}" on-click="handleClick" class="list-picker-label toggle__label toggle__label--small"></label>
+                </div>
+            </div>
+        </template>
+        <array-selector id="selector" items="{{pickerOptions}}" selected="{{selected}}" multi$="{{multi}}" toggle$={{multi}}></array-selector>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+
+        is: 'ref-list-picker',
+
+        ready: function() {
+            if (!this.id) {
+                throw "id attribute is required for ref-list-picker";
+            }
+        },
+
+        /**
+         * Properties block, expose attribute values to the DOM via 'reflect'
+         *
+         * @property properties
+         * @type Object
+         */
+        properties: {
+            pickerOptions: {
+                type: Array,
+                notify: true
+            },
+            selectedOptions: {
+                // For now, pass as a string, so the event is always fired, and we can use the array-selector.
+                type: String,
+                notify: true
+            },
+            defaultOption: {
+                type: Object,
+                notify: true
+            },
+            keyField: {
+                type: String
+            },
+            multi: {
+                type: Boolean
+            }
+        },
+
+        observers: ['optionsChanged(pickerOptions)', 'defaultChanged(defaultOption)'],
+
+        computeItemId: function(index) {
+            // console.log('item id: ' + this.id + index);
+            return this.id + index;
+        },
+
+        computeItemClass: function(index) {
+            return "layout__item u-1/10 color" + (index % 9);
+        },
+
+        showSelectedOptions: function() {
+            // check if there is a default, then mark as checked.
+            var self = this;
+            if (!self.pickerOptions || !self.defaultOption) { return; }
+
+            // need to use async() to wait for elements to load before we mark them.
+            this.async(function() {
+                for (var i=0; i<self.pickerOptions.length; i++) {
+                    var opt = self.pickerOptions[i],
+                        el = self.$$('#' + self.computeItemId(i));
+                    if (!el) { continue; }
+                    if (opt[self.keyField] === self.defaultOption[self.keyField]) {
+                        // console.log("MATCH!!");
+                        Polymer.dom(el).setAttribute('checked', 'true');
+                    } else {
+                        el.checked = false;
+                    }
+                }
+            });
+        },
+
+        optionsChanged: function(newOptions) {
+            // console.log('optionsChanged: ' + JSON.stringify(newOptions));
+            this.pickerOptions = newOptions;
+            this.showSelectedOptions();
+        },
+
+        defaultChanged: function(defaultOption) {
+            // console.log('defaultChanged: ' + JSON.stringify(defaultOption));
+            this.$.selector.select(defaultOption);
+            // TODO: revisit this, see if we can use array type, not string
+            this.set('selectedOptions', JSON.stringify(this.$.selector.selected));
+            this.showSelectedOptions();
+        },
+
+        /**
+         * Handles click on the element defined in 'on-click' on the template
+         *
+         * @method handleClick
+         */
+        handleClick: function(event, detail, sender) {
+            var item = event.model.item;
+            // console.log('handleClick. item=' + JSON.stringify(item));
+            this.$.selector.select(item);
+
+            // TODO: revisit this, see if we can use array type, not string
+            // this.set('selectedOptions', null);
+            // this.selectedOptions = this.$.selector.selected;
+            this.set('selectedOptions', JSON.stringify(this.$.selector.selected));
+            // console.log("handleClick: " + JSON.stringify(this.$.selector.selected));
+
+            if (!this.multi) {
+                for (var i=0; i<this.pickerOptions.length; i++) {
+                    var el = this.$$('#' + this.computeItemId(i));
+                    if (el) {
+                        // Polymer.dom(el).removeAttribute('checked');
+                        // el.removeAttribute('checked');
+                        // for some reason, only this works:
+                        el.checked = false;
+                    }
+                }
+            }
+        }
+
+    });
+</script>

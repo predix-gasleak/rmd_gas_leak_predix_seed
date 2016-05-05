@@ -1,0 +1,67 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>ref-list-picker Demo</title>
+        <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+        <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+        <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+        <link rel="import" href="ref-list-picker.html"/>
+    </head>
+
+    <body>
+
+        <h3>Demo</h3>
+
+        <p>
+            Although related, examples are /not/ the same as the test fixtures.
+            Tests are tests, examples are examples.
+        </p>
+
+        <p>
+            Also see the <a href="index.html">documentation</a> and the <a href="test/fixture.html">UI test fixture</a>.
+        </p>
+
+        <p>
+            Click on a toggle switch below.
+        </p>
+
+        <div style="width: 20%">
+            <ref-list-picker id="first" key-field="tagName" multi></ref-list-picker>
+            <br/>
+            Another one
+            <br/>
+            <ref-list-picker id="second" key-field="tagName"></ref-list-picker>
+        </div>
+
+        <script type="text/javascript">
+            var firstPicker = Polymer.dom(document).querySelector('#first');
+            var options = [
+                {label: "Pressure", tagName: "pressure"},
+                {label: "Temperature", tagName: "temperature"},
+                {label: "Velocity", tagName: "velocity"},
+                {label: "Pressure 2", tagName: "pressure2"},
+                {label: "Temperature 2", tagName: "temperature2"},
+                {label: "Velocity 2", tagName: "velocity2"},
+                {label: "Pressure 3", tagName: "pressure3"},
+                {label: "Temperature 3", tagName: "temperature3"},
+                {label: "Velocity 3", tagName: "velocity3"},
+                {label: "Temperature 4", tagName: "temperature4"},
+                {label: "Velocity 4", tagName: "velocity4"}
+            ];
+            firstPicker.pickerOptions = options;
+            firstPicker.defaultOption = firstPicker.pickerOptions[3];
+
+            var secondPicker = Polymer.dom(document).querySelector('#second');
+            // secondPicker.pickerOptions = [
+            //     {label: "Pressure", tagName: "pressure"},
+            //     {label: "Temperature", tagName: "temperature"},
+            //     {label: "Velocity", tagName: "velocity"}
+            // ];
+            secondPicker.pickerOptions = options;
+        </script>
+
+    </body>
+</html>
