@@ -4,8 +4,10 @@
 <script type="text/javascript" src="../px/dist/px.min.js"></script>
 
 <dom-module id="time-series-card"> 
+	 <link rel="import" type="css" href="css/px-sample-cards.css"/>
 	<template> 
 		<px-card header-text="{{context.name}}"> <!--<button on-click="saveBtnClicked">Save</button>-->
+			<button class="btn u-mr- left-align" on-click="drawData">Refresh</button>
 			<px-chart id="tsChart"> 
 				<px-chart-controls data-controls show-refresh="true" show-date-range="true"></px-chart-controls> 
 				<px-chart-yaxis id="firstAxis" offset="0"></px-chart-yaxis> 
@@ -59,8 +61,8 @@
        * that is passed into time series card.
        * */
       
-       if (this.context.urls && this.context.urls['vara-core-vibe-rear-cruise']) {
-           this.getData(this.context.urls['vara-core-vibe-rear-cruise']).then(function (predixTimeSeriesData) {
+       if (this.context.urls && this.context.urls['child']) {
+           this.getData(this.context.urls['child']).then(function (predixTimeSeriesData) {
         	 predixTimeSeriesData.tags[0].results[0].datapoints =   predixTimeSeriesData.tags[0].results[0].values;        	         	       	 
              var firstSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
              firstSeries.id = firstSeries.name;
@@ -71,8 +73,8 @@
            });
          }
 
-      if (this.context.urls && this.context.urls['vara-delta-egt-cruise']) {
-        this.getData(this.context.urls['vara-delta-egt-cruise']).then(function (predixTimeSeriesData1) {
+      if (this.context.urls && this.context.urls['child2']) {
+        this.getData(this.context.urls['child2']).then(function (predixTimeSeriesData1) {
           predixTimeSeriesData1.tags[0].results[0].datapoints =   predixTimeSeriesData1.tags[0].results[0].values;  
           var secondSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData1.tags)[0];
           secondSeries.id = secondSeries.name;
